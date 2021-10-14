@@ -8,3 +8,4 @@ class Command(GenreCategoryCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.model_name = Genre
+        self.key_field = 'slug'

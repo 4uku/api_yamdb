@@ -49,18 +49,20 @@ class GenreCategoryCommand(SubCommand):
         self.stdout.write(self.style.SUCCESS(f'filename:{filename}'))
         file_path = self.get_csv_file(filename)
         line_count = 0
-        model_slug = []
+        model_key_fields = []
         try:
             with open(file_path, encoding="utf8") as csv_file:
                 csv_reader = csv.reader(csv_file, delimiter=',')
                 self.clear_model()
                 for row in csv_reader:
-                    if row != '' and line_count >= 1:
-                        data = {}
-                        data['name'] = row[1]
-                        data['slug'] = row[2]
-                        if data['slug'] not in model_slug:
-                            model_slug.append(data['slug'])
+                    if line_count == 0:
+                        model_fields = row
+                    elif row != '' and line_count >= 1:
+                        for i in range(1, len(row)):
+                            data = {}
+                            data[model_fields[i]] = row[i]
+                        if data[f'{self.key_field}'] not in model_key_fields:
+                            model_key_fields.append(data[f'{self.key_field}'])
                             self.insert_table_to_db(data)
                     line_count += 1
             self.stdout.write(
@@ -69,4 +71,4 @@ class GenreCategoryCommand(SubCommand):
                 )
             )
         except FileNotFoundError:
-            raise CommandError(f'File {file_path} does not exist')
+            raise CommandError(f'File {file_path} does not exist')  
