@@ -46,3 +46,12 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
+##### Для добавления данных из ```csv``` файлов в базу в следующем порядке выполнить:
+```
+python manage.py add_user users.csv
+python manage.py add_category category.csv
+python manage.py add_genre genre.csv
+python manage.py add_title titles.csv
+python manage.py add_review review.csv
+python manage.py add_comment comments.csv
+```
