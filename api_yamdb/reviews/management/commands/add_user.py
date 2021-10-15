@@ -10,7 +10,6 @@ class Command(SubCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.model_name = User
-        self.key_field = 'id'
 
     def insert_table_to_db(self, data):
         try:

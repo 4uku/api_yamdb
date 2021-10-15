@@ -8,4 +8,3 @@ class Command(SubCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.model_name = Category
-        self.key_field = 'slug'

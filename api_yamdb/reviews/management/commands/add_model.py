@@ -40,17 +40,14 @@ class SubCommand(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f'filename:{filename}'))
         file_path = self.get_csv_file(filename)
         line_count = 0
-        model_key_fields = []
         try:
             with open(file_path, encoding="utf8") as csv_file:
                 csv_reader = csv.DictReader(csv_file, delimiter=',')
                 self.clear_model()
                 for data in csv_reader:
-                    if data[f'{self.key_field}'] not in model_key_fields:
-                        model_key_fields.append(data[f'{self.key_field}'])
-                        self.insert_table_to_db(data)
-                        line_count += 1
-                        print(f'{line_count} added to {self.model_name}')
+                    self.insert_table_to_db(data)
+                    line_count += 1
+                    print(f'{line_count} added to {self.model_name}')
             self.stdout.write(
                 self.style.SUCCESS(
                     f'{line_count} entries added to {self.model_name}'
