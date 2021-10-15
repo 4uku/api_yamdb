@@ -1,27 +1,27 @@
 from django.core.management.base import CommandError
 
-from reviews.models import User
+from reviews.models import Comment, Review, User
 from .add_model import SubCommand
 
 
 class Command(SubCommand):
-    help = 'add csv to User model'
+    help = 'add csv to Comment model'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.model_name = User
-        self.key_field = 'id'
+        self.model_name = Comment
+        self.key_field = 'text'
 
     def insert_table_to_db(self, data):
         try:
+            review = Review.objects.get(pk=data["review_id"])
+            author = User.objects.get(pk=data["author"])
             self.model_name.objects.create(
                 id=data["id"],
-                username=data["username"],
-                email=data["email"],
-                role=data["role"],
-                bio=data["bio"],
-                first_name=data["first_name"],
-                last_name=data["last_name"]
+                review=review,
+                author=author,
+                pub_date=data["pub_date"],
+                text=data["text"]
             )
         except Exception as e:
             raise CommandError(

@@ -1,8 +1,8 @@
 from reviews.models import Genre
-from .add_model import GenreCategoryCommand
+from .add_model import SubCommand
 
 
-class Command(GenreCategoryCommand):
+class Command(SubCommand):
     help = 'add csv to Genre model'
 
     def __init__(self, *args, **kwargs):
